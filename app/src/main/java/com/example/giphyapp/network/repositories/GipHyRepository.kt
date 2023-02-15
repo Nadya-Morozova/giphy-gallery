@@ -27,5 +27,4 @@ class GipHyRepository @Inject constructor(
             gipHyApi.searchGifsByQuery(query, limit, offset)
         }
 
-
 }

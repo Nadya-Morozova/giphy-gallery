@@ -21,4 +21,5 @@ class InnerGifViewHolder(private val binding: ItemInnerGifBinding) :
                 .into(imgInnerGif)
         }
     }
+
 }

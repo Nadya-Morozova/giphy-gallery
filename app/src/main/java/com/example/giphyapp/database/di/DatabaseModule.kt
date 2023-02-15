@@ -35,4 +35,5 @@ object DatabaseModule {
     fun provideBlockListDao(gipHyDatabase: GipHyDatabase): BlocklistDao {
         return gipHyDatabase.blocklistDao()
     }
+
 }

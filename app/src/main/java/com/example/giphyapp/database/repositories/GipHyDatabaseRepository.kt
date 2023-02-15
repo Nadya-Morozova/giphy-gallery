@@ -3,8 +3,8 @@ package com.example.giphyapp.database.repositories
 import com.example.giphyapp.data.GlobalGipHy
 import com.example.giphyapp.database.dao.BlocklistDao
 import com.example.giphyapp.database.dao.GipHyDao
-import com.example.giphyapp.database.data.GipHy
 import com.example.giphyapp.database.data.BlockedGipHy
+import com.example.giphyapp.database.data.GipHy
 import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
 

@@ -54,11 +54,8 @@ class MainFragment : Fragment(), BlockListGifs {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        if (this::binding.isInitialized.not()) {
-            binding = FragmentMainBinding.inflate(inflater, container, false).apply {
-                lifecycleOwner = this@MainFragment
-            }
-        }
+        binding = FragmentMainBinding.inflate(inflater, container, false)
+
         return binding.root
     }
 
