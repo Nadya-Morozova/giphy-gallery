@@ -21,6 +21,7 @@ import com.example.giphyapp.utils.ConnectivityTracker
 import com.example.giphyapp.utils.OnGifClick
 import com.example.giphyapp.views.adapters.GipHyAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -123,8 +124,8 @@ class MainFragment : Fragment(), BlockListGifs {
 
     private fun subscribeAdapter() {
         MainViewModel.commonFlow = viewModel.flow
-        viewModel.gipHyPagingData.observe(viewLifecycleOwner) {
-            lifecycleScope.launch {
+        lifecycleScope.launch {
+            viewModel.flow.collectLatest {
                 gipHyAdapter.submitData(it)
             }
         }

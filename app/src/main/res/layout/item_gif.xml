@@ -14,6 +14,7 @@
             android:adjustViewBounds="true"
             android:foreground="@color/foreground"
             android:scaleType="fitXY"
+            android:minWidth="230dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -37,7 +37,6 @@ class DetailFragment : Fragment() {
     lateinit var connectivityTracker: ConnectivityTracker
 
     private var position: Int? = null
-    private val viewModel by viewModels<MainViewModel>()
     private lateinit var binding: FragmentDetailBinding
     private lateinit var gipHyAdapter: GipHyAdapter
 

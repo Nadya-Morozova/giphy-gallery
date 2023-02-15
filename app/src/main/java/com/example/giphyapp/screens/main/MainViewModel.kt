@@ -26,9 +26,6 @@ class MainViewModel @Inject constructor(
         var commonFlow: Flow<PagingData<GlobalGipHy>>? = null
     }
 
-    private val _gipHyPagingData = MutableLiveData<PagingData<GlobalGipHy>>()
-    val gipHyPagingData: LiveData<PagingData<GlobalGipHy>> = _gipHyPagingData
-
     private var pagingSource: PagingSource<Int, GlobalGipHy> =
         GipHyPagingSource(gipHyRepository, gipHyDatabaseRepository, null)
 
