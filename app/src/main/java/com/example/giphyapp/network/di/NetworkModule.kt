@@ -1,11 +1,13 @@
 package com.example.giphyapp.network.di
 
+import android.content.Context
 import com.example.giphyapp.network.api.GipHyApi
 import com.example.giphyapp.network.interceptor.GipHyInterceptor
 import com.example.giphyapp.utils.ConnectivityTracker
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -19,8 +21,8 @@ object NetworkModule {
     private const val URL = "https://api.giphy.com/v1/gifs/"
 
     @Provides
-    fun provideConnectivityTracker(): ConnectivityTracker {
-        return ConnectivityTracker()
+    fun provideConnectivityTracker(@ApplicationContext context: Context): ConnectivityTracker {
+        return ConnectivityTracker(context)
     }
 
     @Provides

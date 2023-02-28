@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.*
 import android.widget.ImageView
 import android.widget.SearchView
-import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -57,7 +56,7 @@ class MainFragment : Fragment(), BlockListGifs, OnGifClick {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
-        loadGifs(null, !connectivityTracker.isNetworkConnected(requireContext()))
+        loadGifs(null)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -73,14 +72,14 @@ class MainFragment : Fragment(), BlockListGifs, OnGifClick {
             )
         )
         closeButton.setOnClickListener {
-            loadGifs(null, false)
+            loadGifs(null)
             search.onActionViewCollapsed()
             search.clearFocus()
         }
 
         search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                loadGifs(query, false)
+                loadGifs(query)
                 return true
             }
 
@@ -91,9 +90,9 @@ class MainFragment : Fragment(), BlockListGifs, OnGifClick {
         })
     }
 
-    private fun loadGifs(searchQuery: String?, fromDatabase: Boolean) {
+    private fun loadGifs(searchQuery: String?) {
         createNewAdapter()
-        viewModel.setSearchQuery(searchQuery, fromDatabase)
+        viewModel.setSearchQuery(searchQuery)
         subscribeAdapter()
     }
 
@@ -103,10 +102,9 @@ class MainFragment : Fragment(), BlockListGifs, OnGifClick {
         binding.rvGifs.adapter = concatAdapter
     }
 
-
     private fun subscribeAdapter() {
         lifecycleScope.launch {
-            viewModel.flow.collectLatest {
+            viewModel.listOfGifsFlow.collectLatest {
                 gipHyAdapter.submitData(it)
             }
         }

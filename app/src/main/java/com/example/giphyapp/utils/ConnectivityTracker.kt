@@ -5,9 +5,9 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 
-class ConnectivityTracker {
+class ConnectivityTracker(private val context: Context) {
 
-    fun isNetworkConnected(context: Context): Boolean {
+    fun isNetworkConnected(): Boolean {
         val connectivityManager: ConnectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
