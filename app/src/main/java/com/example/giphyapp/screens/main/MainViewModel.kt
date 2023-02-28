@@ -22,10 +22,6 @@ class MainViewModel @Inject constructor(
     private val gipHyDatabaseRepository: GipHyDatabaseRepository
 ) : ViewModel() {
 
-    companion object {
-        var commonFlow: Flow<PagingData<GlobalGipHy>>? = null
-    }
-
     private var pagingSource: PagingSource<Int, GlobalGipHy> =
         GipHyPagingSource(gipHyRepository, gipHyDatabaseRepository, null)
 

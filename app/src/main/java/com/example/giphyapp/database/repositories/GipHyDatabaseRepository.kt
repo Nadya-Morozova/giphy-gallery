@@ -18,15 +18,15 @@ class GipHyDatabaseRepository @Inject constructor(
 
     suspend fun insertGipHy(globalGipHy: GlobalGipHy) {
         val gipHy = GipHy(
-            globalGipHy.id ?: "",
-            globalGipHy.title ?: "",
-            globalGipHy.url ?: ""
+            globalGipHy.id ?: return,
+            globalGipHy.title ?: return,
+            globalGipHy.url ?: return
         )
-        blocklistDao.insertGipHy(gipHy)
+        gipHyDao.insertGipHy(gipHy)
     }
 
     suspend fun getBlockedGifs() =
-        gipHyDao.getBlockedGifs()
+        blocklistDao.getBlockedGifs()
 
     suspend fun insertToBlockList(blockedGipHy: BlockedGipHy) =
         blocklistDao.insertToBlockList(blockedGipHy)

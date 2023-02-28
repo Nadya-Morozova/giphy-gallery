@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.view.*
 import android.widget.ImageView
 import android.widget.SearchView
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,23 +28,17 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainFragment : Fragment(), BlockListGifs {
+class MainFragment : Fragment(), BlockListGifs, OnGifClick {
 
     @Inject
     lateinit var connectivityTracker: ConnectivityTracker
 
-    private lateinit var binding: FragmentMainBinding
-    private val viewModel by viewModels<MainViewModel>()
+    private var _binding: FragmentMainBinding? = null
+    private val binding get() = _binding!!
+    private val viewModel by activityViewModels<MainViewModel>()
 
     private lateinit var gipHyAdapter: GipHyAdapter
     private lateinit var concatAdapter: ConcatAdapter
-
-    private var onGifClick: OnGifClick? = null
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        onGifClick = context as OnGifClick
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,8 +50,7 @@ class MainFragment : Fragment(), BlockListGifs {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentMainBinding.inflate(inflater, container, false)
-
+        _binding = FragmentMainBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -63,12 +58,6 @@ class MainFragment : Fragment(), BlockListGifs {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
         loadGifs(null, !connectivityTracker.isNetworkConnected(requireContext()))
-    }
-
-
-    override fun onDetach() {
-        super.onDetach()
-        onGifClick = null
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -109,18 +98,13 @@ class MainFragment : Fragment(), BlockListGifs {
     }
 
     private fun createNewAdapter() {
-        gipHyAdapter = GipHyAdapter(object : OnGifClick {
-            override fun onGifClick(position: Int) {
-                onGifClick?.onGifClick(position)
-            }
-        }, this, Type.LIST)
+        gipHyAdapter = GipHyAdapter(this, this, Type.LIST)
         concatAdapter = gipHyAdapter.withLoadStateFooter(ListLoadStateAdapter())
         binding.rvGifs.adapter = concatAdapter
     }
 
 
     private fun subscribeAdapter() {
-        MainViewModel.commonFlow = viewModel.flow
         lifecycleScope.launch {
             viewModel.flow.collectLatest {
                 gipHyAdapter.submitData(it)
@@ -145,6 +129,12 @@ class MainFragment : Fragment(), BlockListGifs {
 
     override fun addToBlockList(id: String) {
         viewModel.insertGifsToBlockList(BlockedGipHy(id))
+    }
+
+    override fun onGifClick(position: Int) {
+        findNavController().navigate(
+            MainFragmentDirections.actionMainFragmentToDetailFragment(position)
+        )
     }
 
 }

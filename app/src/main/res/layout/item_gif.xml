@@ -1,51 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ImageView
+        android:id="@+id/img_gif"
+        android:layout_width="230dp"
+        android:layout_height="230dp"
+        android:adjustViewBounds="true"
+        android:foreground="@color/foreground"
+        android:minWidth="230dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/tv_title"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:padding="16dp"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toBottomOf="@+id/img_gif"
+        app:layout_constraintEnd_toEndOf="@+id/img_gif"
+        app:layout_constraintStart_toStartOf="@id/img_gif"
+        app:layout_constraintTop_toTopOf="@+id/img_gif" />
 
-        <ImageView
-            android:id="@+id/img_gif"
-            android:layout_width="230dp"
-            android:layout_height="230dp"
-            android:adjustViewBounds="true"
-            android:foreground="@color/foreground"
-            android:scaleType="fitXY"
-            android:minWidth="230dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/avatars" />
+    <ImageView
+        android:id="@+id/btn_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/block_icon"
+        app:layout_constraintEnd_toEndOf="@id/img_gif"
+        app:layout_constraintTop_toTopOf="@id/img_gif" />
 
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:padding="16dp"
-            android:textStyle="bold|italic"
-            app:layout_constraintBottom_toBottomOf="@+id/img_gif"
-            app:layout_constraintEnd_toEndOf="@+id/img_gif"
-            app:layout_constraintStart_toStartOf="@id/img_gif"
-            app:layout_constraintTop_toTopOf="@+id/img_gif" />
-
-        <ImageView
-            android:id="@+id/btn_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="24dp"
-            android:background="@drawable/block_icon"
-            app:layout_constraintEnd_toEndOf="@id/img_gif"
-            app:layout_constraintTop_toTopOf="@id/img_gif" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

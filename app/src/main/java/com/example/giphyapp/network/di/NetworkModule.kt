@@ -24,12 +24,15 @@ object NetworkModule {
     }
 
     @Provides
-    @Singleton
-    fun provideRetrofit(): Retrofit {
-        val client = OkHttpClient.Builder()
+    fun provideOkHttpClient(): OkHttpClient {
+        return OkHttpClient.Builder()
             .addInterceptor(GipHyInterceptor())
             .build()
+    }
 
+    @Provides
+    @Singleton
+    fun provideRetrofit(client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(URL)
             .addConverterFactory(GsonConverterFactory.create())
