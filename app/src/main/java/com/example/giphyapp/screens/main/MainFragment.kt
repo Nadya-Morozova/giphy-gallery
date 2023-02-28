@@ -50,6 +50,7 @@ class MainFragment : Fragment(), BlockListGifs, OnGifClick {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
+
         return binding.root
     }
 

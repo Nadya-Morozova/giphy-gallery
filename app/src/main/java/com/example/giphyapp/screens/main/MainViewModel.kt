@@ -1,9 +1,11 @@
 package com.example.giphyapp.screens.main
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.*
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingSource
+import androidx.paging.cachedIn
 import com.example.giphyapp.data.GlobalGipHy
 import com.example.giphyapp.database.data.BlockedGipHy
 import com.example.giphyapp.database.repositories.GipHyDatabaseRepository
@@ -12,7 +14,6 @@ import com.example.giphyapp.network.paging.GipHyPagingSource
 import com.example.giphyapp.network.repositories.GipHyRepository
 import com.example.giphyapp.utils.ConnectivityTracker
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

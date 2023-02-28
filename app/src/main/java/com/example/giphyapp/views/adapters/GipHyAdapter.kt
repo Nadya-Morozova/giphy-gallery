@@ -20,7 +20,7 @@ import com.example.giphyapp.views.viewholders.InnerGifViewHolder
 class GipHyAdapter(
     private val onGifClick: OnGifClick? = null,
     private val blockListGifs: BlockListGifs? = null,
-    val item: Type
+    private val item: Type
 ) : PagingDataAdapter<GlobalGipHy, RecyclerView.ViewHolder>(GipHyDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
