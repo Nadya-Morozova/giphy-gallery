@@ -1,6 +1,7 @@
 package com.example.giphyapp.screens.detail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,14 +15,14 @@ import com.example.giphyapp.databinding.FragmentDetailBinding
 import com.example.giphyapp.screens.main.MainViewModel
 import com.example.giphyapp.views.adapters.GipHyAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.util.Arrays
 
 @AndroidEntryPoint
 class DetailFragment : Fragment() {
 
     companion object {
-        const val positionKey = "POSITION"
+        const val POSITION_KEY = "POSITION"
     }
 
     private lateinit var gipHyAdapter: GipHyAdapter
@@ -43,29 +44,31 @@ class DetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (savedInstanceState == null) initObservers()
         gipHyAdapter = GipHyAdapter(item = Type.ONE_ITEM)
-
-        initObservers()
-
         binding.vpGifs.adapter = gipHyAdapter
+
         binding.vpGifs.post {
             binding.vpGifs.setCurrentItem(
-                savedInstanceState?.getInt(positionKey) ?: args.position,
+                savedInstanceState?.getInt(POSITION_KEY) ?: args.position,
                 false
             )
         }
 
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
         binding.vpGifs.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                savedInstanceState?.putInt(positionKey, position)
+                outState.putInt(POSITION_KEY, position)
             }
         })
-
     }
 
     private fun initObservers() {
-        lifecycleScope.launch {
-            viewModel.listOfGifsFlow.collectLatest {
+        viewModel.giphyPagingData.observe(viewLifecycleOwner) {
+            lifecycleScope.launch {
                 gipHyAdapter.submitData(it)
             }
         }

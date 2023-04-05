@@ -1,6 +1,5 @@
 package com.example.giphyapp.screens.main
 
-import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.widget.ImageView
@@ -22,7 +21,6 @@ import com.example.giphyapp.utils.ConnectivityTracker
 import com.example.giphyapp.utils.OnGifClick
 import com.example.giphyapp.views.adapters.GipHyAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -50,14 +48,14 @@ class MainFragment : Fragment(), BlockListGifs, OnGifClick {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
-        loadGifs(null)
+        createNewAdapter()
+        subscribeAdapter()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -73,14 +71,14 @@ class MainFragment : Fragment(), BlockListGifs, OnGifClick {
             )
         )
         closeButton.setOnClickListener {
-            loadGifs(null)
+            viewModel.setSearchQuery(null)
             search.onActionViewCollapsed()
             search.clearFocus()
         }
 
         search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                loadGifs(query)
+                viewModel.setSearchQuery(query)
                 return true
             }
 
@@ -91,12 +89,6 @@ class MainFragment : Fragment(), BlockListGifs, OnGifClick {
         })
     }
 
-    private fun loadGifs(searchQuery: String?) {
-        createNewAdapter()
-        viewModel.setSearchQuery(searchQuery)
-        subscribeAdapter()
-    }
-
     private fun createNewAdapter() {
         gipHyAdapter = GipHyAdapter(this, this, Type.LIST)
         concatAdapter = gipHyAdapter.withLoadStateFooter(ListLoadStateAdapter())
@@ -104,8 +96,8 @@ class MainFragment : Fragment(), BlockListGifs, OnGifClick {
     }
 
     private fun subscribeAdapter() {
-        lifecycleScope.launch {
-            viewModel.listOfGifsFlow.collectLatest {
+        viewModel.giphyPagingData.observe(viewLifecycleOwner) {
+            lifecycleScope.launch {
                 gipHyAdapter.submitData(it)
             }
         }
